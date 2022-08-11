@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 #data from April 1, 2021 - October 3, 2021
 mydata= pd.read_csv(r'C:\Users\micha\Desktop\savant_data.csv')
@@ -262,5 +262,5 @@ answer_to_question = input("Would you like to see offspeed data for " + pick_a_p
 if answer_to_question.lower() == "yes":
   charts_offspeed(pick_a_player, pitcher_handedness)
   heat_map_offspeed(pick_a_player, pitcher_handedness)
-
-print("Hello!")
+if answer_to_question.lower() == "no":
+  print("Thanks for using the MLB Pitching Coach. Please run again to choose a different player.")
