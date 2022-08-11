@@ -1,6 +1,9 @@
 import pandas as pd
+from pandas import read_csv
+
 #data from April 1, 2021 - October 3, 2021
-mydata= pd.read_csv("savant_data.csv")
+
+mydata= pd.read_csv(r'C:\Users\micha\Desktop\savant_data.csv')
 #block of code to convert pitch types into just "fastballs" or "offspeed"
 pitch_type_series = mydata["pitch_type"]
 pitch_type_list = pitch_type_series.tolist()
@@ -245,6 +248,7 @@ def heat_map_offspeed(name, pitcher_handedness):
   sns.heatmap(zone_events_offspeed, cmap="Blues") 
 
 #Final Product Prompts
+
 def baseball_analysis(name, pitcher_handedness):
   scouting_report(name, pitcher_handedness)
   charts_fastball(name, pitcher_handedness)
