@@ -1,9 +1,16 @@
+import PySimpleGUI as sg
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-#data from April 1, 2021 - October 3, 2021
-mydata= pd.read_csv(r'C:\Users\micha\Desktop\savant_data.csv')
+from pandas import read_csv
+import csv
+
+#Assign variable to csv file
+filename = "savant_data.csv"
+
+with open(filename, 'r') as csvfile:
+    mydata = pd.read_csv(filename)
 
 #block of code to convert pitch types into just "fastballs" or "offspeed"
 pitch_type_series = mydata["pitch_type"]
@@ -95,7 +102,7 @@ league_triple_percentage_offspeed = league_triple_offspeed / league_all_offspeed
 league_homerun_percentage_offspeed = league_homerun_offspeed / league_all_offspeed
 
 def scouting_report(name, pitcher_handedness):
-  print("This is the scouting report for " + name, end=".\n\n")
+  print("This is the scouting report.")
 
   if pitcher_handedness == "R":
     throws = "against right-handed pitchers"
@@ -168,7 +175,6 @@ def scouting_report(name, pitcher_handedness):
   if abs(player_fieldout_percentage_offspeed - league_fieldout_percentage_offspeed) > 0.03:
     print(name, "hits offspeed pitches for outs", throws, format(player_fieldout_percentage_offspeed,".0%"), "of the time, while the league hits them", format(league_fieldout_percentage_offspeed,".0%"), "of the time")
   print("")
-
 def charts_fastball(name, pitcher_handedness):
   player = mydata["playername"] == name
   player_df = mydata[player]
@@ -247,25 +253,54 @@ def heat_map_offspeed(name, pitcher_handedness):
   sns.heatmap(zone_events_offspeed, cmap="Blues")
   plt.show()
 
-#Final Product - Input Boxes
-
 def baseball_analysis(name, pitcher_handedness):
-  scouting_report(name, pitcher_handedness)
-  charts_fastball(name, pitcher_handedness)
-  heat_map_fastball(name, pitcher_handedness)
+    scouting_report(name, pitcher_handedness)
+    charts_fastball(name, pitcher_handedness)
+    heat_map_fastball(name, pitcher_handedness)
 
-try:
-  pick_a_player = input("Who do you want a scouting report of? ")
-  pitcher_handedness = input("Is the opposing pitcher a righty or a lefty? Enter 'R' or 'L': ")
-  baseball_analysis(pick_a_player, pitcher_handedness)
+def offspeed_analysis(name, pitcher_handedness):
+    charts_offspeed(name, pitcher_handedness)
+    heat_map_offspeed(name, pitcher_handedness)
 
-except:
-  print("You have entered an invalid name or input. Please check spelling and capitalization.")
-  raise
 
-answer_to_question = input("Would you like to see offspeed data for " + pick_a_player + "? Input yes or no: ")
-if answer_to_question.lower() == "yes":
-  charts_offspeed(pick_a_player, pitcher_handedness)
-  heat_map_offspeed(pick_a_player, pitcher_handedness)
-if answer_to_question.lower() == "no":
-  print("Thanks for using the MLB Pitching Coach. Please run again to choose a different player.")
+sg.theme('DarkTeal6')
+table_content = []
+layout = [
+	[sg.Text("Type in a player's name (i.e. Aaron Judge):")],
+	[sg.Input(key = '-INPUT-',expand_x = True)],
+    [sg.Text("Type in pitcher throwing hand (i.e. 'R' or 'L'):")],
+    [sg.InputText(key="-PITCHER_HAND-")], 
+	[sg.Button('Submit'), sg.Exit()],
+]
+
+window = sg.Window('MLB Pitching Coach', layout, finalize = True)
+
+while True:
+        event, values = window.read()
+        if event == sg.WINDOW_CLOSED:
+            break
+        if event == 'Submit':
+            name = values['-INPUT-']
+            pitcher_handedness = values["-PITCHER_HAND-"]
+            baseball_analysis(name, pitcher_handedness), offspeed_analysis(name, pitcher_handedness)
+        if event == "Exit":
+            break
+
+window.close()
+
+layout = [
+    [sg.Text("Here is the player stats versus the league:")],
+    [sg.Text(scouting_report)],
+]
+
+text_window = sg.Window('Scouting Report', layout, finalize = True)
+
+while True:
+        event, values = window.read()
+        if event == sg.WINDOW_CLOSED:
+            break
+        if event == "Exit":
+            break
+
+
+print("Done! Thanks for using MLB Pitching Coach.")
