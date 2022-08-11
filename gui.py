@@ -12,4 +12,4 @@ while True:
     print(event, values)
     if event in (sg.WINDOW_CLOSED, "Exit"):
       break
-    if event == "OK"
+    

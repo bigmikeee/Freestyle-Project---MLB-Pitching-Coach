@@ -1,9 +1,9 @@
-##Data Cleaning
-"""
-
 import pandas as pd
+import numpy as np
+import matplotlib as plt
+import seaborn as sns
 #data from April 1, 2021 - October 3, 2021
-mydata= pd.read_csv("savant_data.csv")
+mydata= pd.read_csv(r'C:\Users\micha\Desktop\savant_data.csv')
 
 #block of code to convert pitch types into just "fastballs" or "offspeed"
 pitch_type_series = mydata["pitch_type"]
@@ -54,25 +54,20 @@ mydata.loc[mydata["zone"] == 14.0, "zone"] = "low and right (ball)"
 #narrow down our dataframe into the columns that we're maybe gonna use
 columns_used = ["type_of_pitch", "playername","events","description","zone","stand","p_throws","bat_score","fld_score"]
 ourdata = mydata[columns_used]
-#ourdata.head(3)  #view the first 3 rows
 
 #narrow down our dataframe to one where it's only balls hit into play (across all of MLB, all of 2021)
 balls_in_play = ourdata["description"] == "hit_into_play"
 our_df = ourdata[balls_in_play]
-#our_df.head(3) #view the first 3 rows
 
 #dataframe where its only fastballs hit into play (across all of MLB, all of 2021)
 fastballs = our_df["type_of_pitch"] == "fastball"
 MLB_fastball_df = our_df[fastballs]
-#MLB_fastball_df.head(3)  #view the first 3 rows
 
 #dataframe where its only offspeed hit into play (across all of MLB, all of 2021) 
 offspeed = our_df["type_of_pitch"] == "offspeed"
 MLB_offspeed_df = our_df[offspeed]
-#MLB_offspeed_df.head(3) #view the first 3 rows
 
-"""##Calculate League-Wide Statistics"""
-
+#Calulcate league-wide stats
 league_fieldout_fb = (MLB_fastball_df["events"].values=='field_out').sum()
 league_single_fb = (MLB_fastball_df["events"].values=='single').sum()
 league_double_fb = (MLB_fastball_df["events"].values=='double').sum()
@@ -98,8 +93,6 @@ league_single_percentage_offspeed = league_single_offspeed / league_all_offspeed
 league_double_percentage_offspeed = league_double_offspeed / league_all_offspeed
 league_triple_percentage_offspeed = league_triple_offspeed / league_all_offspeed
 league_homerun_percentage_offspeed = league_homerun_offspeed / league_all_offspeed
-
-"""##Scouting Report"""
 
 def scouting_report(name, pitcher_handedness):
   print("This is the scouting report for " + name, end=".\n\n")
@@ -152,8 +145,6 @@ def scouting_report(name, pitcher_handedness):
   player_triple_percentage_offspeed = player_triple_offspeed / player_all_offspeed
   player_homerun_percentage_offspeed = player_homerun_offspeed / player_all_offspeed
 
-
-
   #Finally, print out the comparisons between a player's individual statistics and the league-wide statistics
   if abs(player_single_percentage_fb - league_single_percentage_fb) > 0.03:
     print(name, "hits fastballs for singles", throws, format(player_single_percentage_fb,".0%"), "of the time, while the league hits them", format(league_single_percentage_fb,".0%"), "of the time")
@@ -177,8 +168,6 @@ def scouting_report(name, pitcher_handedness):
   if abs(player_fieldout_percentage_offspeed - league_fieldout_percentage_offspeed) > 0.03:
     print(name, "hits offspeed pitches for outs", throws, format(player_fieldout_percentage_offspeed,".0%"), "of the time, while the league hits them", format(league_fieldout_percentage_offspeed,".0%"), "of the time")
   print("")
-
-"""##Pie Charts"""
 
 def charts_fastball(name, pitcher_handedness):
   player = mydata["playername"] == name
@@ -209,12 +198,6 @@ def charts_offspeed(name, pitcher_handedness):
   player_offspeed_events_df = player_offspeed_df["events"].value_counts()
   player_offspeed_events_df.plot(x=[[0]], y=[[1]], kind ="pie",autopct='%1.1f%%', title="Player's Results on Offspeed Pitches Hit into Play")
 
-"""##Heat Maps"""
-
-#Fastball Heatmap for Individual Player
-
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 def heat_map_fastball(name, pitcher_handedness):
   graph_columns_fastball = ["playername","events","zone","p_throws","type_of_pitch"] #Narrow data down to columns we will use for graph
@@ -237,6 +220,7 @@ def heat_map_fastball(name, pitcher_handedness):
   plt.title("Player Heatmap: Fastballs")
   ax.set_ylim(1, 5)
   sns.heatmap(zone_events_fastball, cmap="Blues")
+  plt.show()
 
 #Offspeed Heatmap for Individual Player
 
@@ -261,8 +245,9 @@ def heat_map_offspeed(name, pitcher_handedness):
   plt.title("Player Heatmap: Offspeed")
   ax.set_ylim(1, 5)
   sns.heatmap(zone_events_offspeed, cmap="Blues")
+  plt.show()
 
-"""##Final Product"""
+#Final Product - Input Boxes
 
 def baseball_analysis(name, pitcher_handedness):
   scouting_report(name, pitcher_handedness)
@@ -278,3 +263,4 @@ if answer_to_question.lower() == "yes":
   charts_offspeed(pick_a_player, pitcher_handedness)
   heat_map_offspeed(pick_a_player, pitcher_handedness)
 
+print("Hello!")
