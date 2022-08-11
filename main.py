@@ -254,9 +254,14 @@ def baseball_analysis(name, pitcher_handedness):
   charts_fastball(name, pitcher_handedness)
   heat_map_fastball(name, pitcher_handedness)
 
-pick_a_player = input("Who do you want a scouting report of? ")
-pitcher_handedness = input("Is the opposing pitcher a righty or a lefty? Enter 'R' or 'L': ")
-baseball_analysis(pick_a_player, pitcher_handedness)
+try:
+  pick_a_player = input("Who do you want a scouting report of? ")
+  pitcher_handedness = input("Is the opposing pitcher a righty or a lefty? Enter 'R' or 'L': ")
+  baseball_analysis(pick_a_player, pitcher_handedness)
+
+except:
+  print("You have entered an invalid name or input. Please check spelling and capitalization.")
+  raise
 
 answer_to_question = input("Would you like to see offspeed data for " + pick_a_player + "? Input yes or no: ")
 if answer_to_question.lower() == "yes":

@@ -10,6 +10,3 @@ window = sg.Window("MLB Pitching Coach", layout)
 while True:
     event, values = window.read()
     print(event, values)
-    if event in (sg.WINDOW_CLOSED, "Exit"):
-      break
-    
