@@ -5,7 +5,7 @@
 Along with downloading the above repository files, click the link below to access and download the raw example csv data to a local folder;
 https://drive.google.com/file/d/1N0wT8w0YegSNKkAlD-1sYMcSd-8iZRnT/view?usp=sharing
 
-Drag the savant_data csv file into the same location as your local repository folder (code will not work if it is not in the same directory). Make sure it is in the same folder as "main.py"!
+Drag the savant_data csv file into the same location as your local repository "app" folder (code will not work if it is not in the same directory). Make sure it is in the same folder as "main.py"!
 
 Open Terminal or Git Bash to run the MLB Pitching Coach. Navigate over to the directory where the app is located (i.e. C:\Users\micha\Desktop\Freestyle-Project---MLB-Pitching-Coach-main\app)
 
