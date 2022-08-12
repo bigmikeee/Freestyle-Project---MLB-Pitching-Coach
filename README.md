@@ -7,7 +7,9 @@ https://drive.google.com/file/d/1N0wT8w0YegSNKkAlD-1sYMcSd-8iZRnT/view?usp=shari
 
 Drag the savant_data csv file into the same location as your local repository folder (code will not work if it is not in the same directory). Make sure it is in the same folder as "main.py"!
 
-Open Terminal or Git Bash to run the MLB Pitching Coach. To create a new virtual environment run the following in the command line:
+Open Terminal or Git Bash to run the MLB Pitching Coach. Navigate over to the directory where the app is located (i.e.C:\Users\micha\Desktop\Freestyle-Project---MLB-Pitching-Coach-main)
+
+To create a new virtual environment run the following in the command line:
 ```
 conda create --name pitchenv python
 conda activate pitchenv
